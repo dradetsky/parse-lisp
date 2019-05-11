@@ -7,10 +7,15 @@ class LispParser(Parser):
     tokens = LispLexer.tokens
 
     # sexp = atom
+    #      | 'sexp
     #      | (sexp_seq)
     @_('atom')
     def sexp(self, p):
         return p.atom
+
+    @_('QUOTE sexp')
+    def sexp(self, p):
+        return ['quote', p.sexp]
 
     @_('LPAREN sexp_seq RPAREN')
     def sexp(self, p):

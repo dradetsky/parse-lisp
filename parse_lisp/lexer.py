@@ -2,6 +2,7 @@ from sly import Lexer
 
 class LispLexer(Lexer):
     tokens = {
+        QUOTE,
         LPAREN,
         RPAREN,
         NUMBER,
@@ -9,6 +10,7 @@ class LispLexer(Lexer):
         SEP
     }
 
+    QUOTE = r"'"
     LPAREN = r'\('
     RPAREN = r'\)'
     NUMBER = r'-?((\.\d+)|(\d+\.\d*)|(\d+))'
