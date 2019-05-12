@@ -71,3 +71,34 @@ def test_space():
     inp = '((a)\n(b)\n) '
     out = parse(inp)
     assert out == [['a'], ['b']]
+
+def test_invalid():
+    inp = ')(lulz (a b)'
+    out = parse(inp)
+    assert out == None
+
+
+def test_block_comment():
+    inp = '#| lulz |# (a b)'
+    out = parse(inp)
+    assert out == ['a', 'b']
+
+    inp = '#| )(lulz |# (a b)'
+    out = parse(inp)
+    assert out == ['a', 'b']
+
+    inp = '(a b) #| lulz |#'
+    out = parse(inp)
+    assert out == ['a', 'b']
+
+    inp = '((a b) #| lulz |# (a b))'
+    out = parse(inp)
+    assert out == [['a', 'b'], ['a', 'b']]
+
+
+def test_multiline_block_comment():
+    inp = '''#|
+ lulz
+|# (a b)'''
+    out = parse(inp)
+    assert out == ['a', 'b']
