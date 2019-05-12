@@ -20,3 +20,10 @@ class LispLexer(Lexer):
     NUMBER = r'-?((\.\d+)|(\d+\.\d*)|(\d+))'
     SYMBOL = r"[a-zA-Z_\-+*\/=<>:.][.\w\-=><:]*['!?]*"
     STRING = r'"[^"]*"'
+
+    @_(r'#\|')
+    def begin_comment(self, t):
+        end_idx = self.text.find('|#', self.index)
+        if end_idx == -1:
+            raise ValueError('unclosed block comment')
+        self.index = end_idx + 2
