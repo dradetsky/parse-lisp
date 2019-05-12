@@ -1,3 +1,4 @@
 data
 test/test_explore.py
 .parser.out
+parse_lisp.egg-info
