@@ -4,6 +4,8 @@ from .lexer import LispLexer
 
 
 class LispParser(Parser):
+    debugfile = '.parser.out'
+
     tokens = LispLexer.tokens
 
     # sexp = atom
@@ -21,18 +23,21 @@ class LispParser(Parser):
     def sexp(self, p):
         return p.sexp_seq
 
-    # sexp_seq = sexp
-    #          | sexp sexp_seq
-    @_('sexp')
-    def sexp_seq(self, p):
-        return [p.sexp]
-
-    @_('sexp SEP sexp_seq')
+    @_('sexp sexp_seq')
     def sexp_seq(self, p):
         return [p.sexp] + p.sexp_seq
 
+    @_('empty')
+    def sexp_seq(self, p):
+        return []
+
+    @_('')
+    def empty(self, p):
+        pass
+
     # atom = number
     #      | symbol
+    #      | string
     @_('NUMBER')
     def atom(self, p):
         return p.NUMBER
@@ -40,3 +45,7 @@ class LispParser(Parser):
     @_('SYMBOL')
     def atom(self, p):
         return p.SYMBOL
+
+    @_('STRING')
+    def atom(self, p):
+        return p.STRING

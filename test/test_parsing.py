@@ -1,3 +1,5 @@
+import pytest
+
 from parse_lisp import parse
 
 def test_parse_num():
@@ -18,3 +20,54 @@ def test_parse_quote():
     inp = "'(a b)"
     out = parse(inp)
     assert out == ['quote', ['a', 'b']]
+
+def test_parse_symbol():
+    inp = 'foo'
+    out = parse(inp)
+    assert out == 'foo'
+
+    inp = 'foo:bar'
+    out = parse(inp)
+    assert out == 'foo:bar'
+
+def test_empty():
+    inp = '()'
+    out = parse(inp)
+    assert out == []
+
+    inp = '(())'
+    out = parse(inp)
+    assert out == [[]]
+
+def test_space():
+    inp = '(a  b)'
+    out = parse(inp)
+    assert out == ['a', 'b']
+
+    inp = ' (a b)'
+    out = parse(inp)
+    assert out == ['a', 'b']
+
+    inp = '( a b)'
+    out = parse(inp)
+    assert out == ['a', 'b']
+
+    inp = '(a b )'
+    out = parse(inp)
+    assert out == ['a', 'b']
+
+    inp = ' ( a b ) '
+    out = parse(inp)
+    assert out == ['a', 'b']
+
+    inp = ' ( a  b ) '
+    out = parse(inp)
+    assert out == ['a', 'b']
+
+    inp = '(a\nb\n) '
+    out = parse(inp)
+    assert out == ['a', 'b']
+
+    inp = '((a)\n(b)\n) '
+    out = parse(inp)
+    assert out == [['a'], ['b']]

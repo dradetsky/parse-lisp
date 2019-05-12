@@ -7,12 +7,16 @@ class LispLexer(Lexer):
         RPAREN,
         NUMBER,
         SYMBOL,
-        SEP
+        STRING,
     }
+
+    ignore = ' \t'
+    ignore_newline = r'\n'
+    ignore_comment = r';.*'
 
     QUOTE = r"'"
     LPAREN = r'\('
     RPAREN = r'\)'
     NUMBER = r'-?((\.\d+)|(\d+\.\d*)|(\d+))'
-    SYMBOL = r"[a-zA-Z_\-+*\/=<>][\w\-=><]*['!?]*"
-    SEP = r'\s'
+    SYMBOL = r"[a-zA-Z_\-+*\/=<>:.][.\w\-=><:]*['!?]*"
+    STRING = r'"[^"]*"'
