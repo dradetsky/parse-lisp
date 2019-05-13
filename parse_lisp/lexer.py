@@ -1,3 +1,5 @@
+import re
+
 from sly import Lexer
 
 class LispLexer(Lexer):
@@ -35,7 +37,6 @@ class LispLexer(Lexer):
     RPAREN = r'\)'
     NUMBER = r'-?((\.\d+)|(\d+\.\d*)|(\d+))'
     SYMBOL = r"[a-zA-Z_\-+*\/=<>:.&%][.\w\-\+=><:%]*['!?]*"
-    STRING = r'"[^"]*"'
     BACKQUOTE = r'`'
     COMMAAMP = r',@'
     COMMA = r','
@@ -53,6 +54,22 @@ class LispLexer(Lexer):
     SHARPP = r'#p'
 
     EXTRA_CHAR = r'[\?]'
+
+    @_(r'"')
+    def STRING(self, t):
+        begin_idx = self.index - 1
+        search_text = self.text[begin_idx:]
+
+        end_match = re.search(r'[^\\]"', search_text)
+        if not end_match:
+            raise ValueError('cannot find closing quote')
+
+        end_idx = end_match.end(0)
+        val = search_text[0:end_idx]
+
+        t.value = val
+        self.index += (end_idx - 1)
+        return t
 
     @_(r'#\|')
     def begin_comment(self, t):

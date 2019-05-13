@@ -119,3 +119,16 @@ def test_sharp_plusminus():
     inp = '#-sbcl "cl-speedy-queue"'
     out = parse(inp)
     assert out == ['sharpsign-minus', 'sbcl', '"cl-speedy-queue"']
+
+def test_string():
+    inp = '"foo"'
+    out = parse(inp)
+    assert out == '"foo"'
+
+    inp = '("foo")'
+    out = parse(inp)
+    assert out == ['"foo"']
+
+    inp = '"foo \\"bar\\" baz"'
+    out = parse(inp)
+    assert out == '"foo \\"bar\\" baz"'
