@@ -12,16 +12,19 @@ class LispLexer(Lexer):
         SHARPPLUS,
         SHARPMINUS,
         SHARPDOT,
+        SHARPBSHARP,
         SHARPBSLASH,
         SHARPPAREN,
         SHARPQUOTE,
         SHARPCOLON,
         SHARPO,
+        SHARPP,
 
         BACKQUOTE,
         COMMAAMP,
         COMMA,
 
+        EXTRA_CHAR,
     }
 
     ignore = ' \t'
@@ -41,11 +44,15 @@ class LispLexer(Lexer):
     SHARPPLUS = r'#\+'
     SHARPMINUS = r'#\-'
     SHARPDOT = r'#\.'
+    SHARPBSHARP = r'#\\#'
     SHARPBSLASH = r'#\\'
     SHARPPAREN = r'#\('
     SHARPQUOTE = r"#'"
     SHARPCOLON = r'#:'
     SHARPO = r'#o'
+    SHARPP = r'#p'
+
+    EXTRA_CHAR = r'[\?]'
 
     @_(r'#\|')
     def begin_comment(self, t):

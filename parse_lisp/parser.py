@@ -48,6 +48,16 @@ class LispParser(Parser):
     def rmac(self, p):
         return ['sharpsign-backslash', p.NUMBER]
 
+    @_('SHARPBSLASH EXTRA_CHAR')
+    def rmac(self, p):
+        return ['sharpsign-backslash', p.EXTRA_CHAR]
+
+    # XXX ugly special case b/c other attempts breaking the block
+    # comment ignoring fn; precedence rules?
+    @_('SHARPBSHARP')
+    def rmac(self, p):
+        return ['sharpsign-backslash', '#']
+
     @_('SHARPPAREN sexp_seq RPAREN')
     def rmac(self, p):
         return ['sharpsign-vector', p.sexp_seq]
@@ -63,6 +73,10 @@ class LispParser(Parser):
     @_('SHARPO NUMBER')
     def rmac(self, p):
         return ['sharpsign-o', p.NUMBER]
+
+    @_('SHARPP STRING')
+    def rmac(self, p):
+        return ['sharpsign-o', p.STRING]
 
     @_('BACKQUOTE sexp')
     def rmac(self, p):
