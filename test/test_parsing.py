@@ -102,3 +102,20 @@ def test_multiline_block_comment():
 |# (a b)'''
     out = parse(inp)
     assert out == ['a', 'b']
+
+def test_sharp_plusminus():
+    inp = '#+sbcl "sb-posix"'
+    out = parse(inp)
+    assert out == ['sharpsign-plus', 'sbcl', '"sb-posix"']
+
+    inp = '#+(and linux (not asdf3)) "uiop"'
+    out = parse(inp)
+    assert out == ['sharpsign-plus',
+                   ['and', 'linux', ['not', 'asdf3']],
+                   '"uiop"']
+
+    # inp = '#+sbcl "sb-concurrency"'
+
+    inp = '#-sbcl "cl-speedy-queue"'
+    out = parse(inp)
+    assert out == ['sharpsign-minus', 'sbcl', '"cl-speedy-queue"']

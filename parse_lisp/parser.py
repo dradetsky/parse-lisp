@@ -23,6 +23,22 @@ class LispParser(Parser):
     def sexp(self, p):
         return p.sexp_seq
 
+    @_('rmac')
+    def sexp(self, p):
+        return p.rmac
+
+    @_('SHARPPLUS sexp sexp')
+    def rmac(self, p):
+        return ['sharpsign-plus', p.sexp0, p.sexp1]
+
+    @_('SHARPMINUS sexp sexp')
+    def rmac(self, p):
+        return ['sharpsign-minus', p.sexp0, p.sexp1]
+
+    @_('SHARPDOT sexp')
+    def rmac(self, p):
+        return ['sharpsign-dot', p.sexp]
+
     @_('sexp sexp_seq')
     def sexp_seq(self, p):
         return [p.sexp] + p.sexp_seq
