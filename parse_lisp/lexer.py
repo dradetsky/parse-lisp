@@ -8,9 +8,20 @@ class LispLexer(Lexer):
         NUMBER,
         SYMBOL,
         STRING,
+
         SHARPPLUS,
         SHARPMINUS,
         SHARPDOT,
+        SHARPBSLASH,
+        SHARPPAREN,
+        SHARPQUOTE,
+        SHARPCOLON,
+        SHARPO,
+
+        BACKQUOTE,
+        COMMAAMP,
+        COMMA,
+
     }
 
     ignore = ' \t'
@@ -20,12 +31,21 @@ class LispLexer(Lexer):
     LPAREN = r'\('
     RPAREN = r'\)'
     NUMBER = r'-?((\.\d+)|(\d+\.\d*)|(\d+))'
-    SYMBOL = r"[a-zA-Z_\-+*\/=<>:.][.\w\-=><:]*['!?]*"
+    SYMBOL = r"[a-zA-Z_\-+*\/=<>:.&%][.\w\-\+=><:%]*['!?]*"
     STRING = r'"[^"]*"'
+    BACKQUOTE = r'`'
+    COMMAAMP = r',@'
+    COMMA = r','
+
 
     SHARPPLUS = r'#\+'
     SHARPMINUS = r'#\-'
     SHARPDOT = r'#\.'
+    SHARPBSLASH = r'#\\'
+    SHARPPAREN = r'#\('
+    SHARPQUOTE = r"#'"
+    SHARPCOLON = r'#:'
+    SHARPO = r'#o'
 
     @_(r'#\|')
     def begin_comment(self, t):

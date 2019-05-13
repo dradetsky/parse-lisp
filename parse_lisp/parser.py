@@ -39,6 +39,43 @@ class LispParser(Parser):
     def rmac(self, p):
         return ['sharpsign-dot', p.sexp]
 
+    # XXX i'm not using #\ correctly, maybe doesn't matter right now
+    @_('SHARPBSLASH SYMBOL')
+    def rmac(self, p):
+        return ['sharpsign-backslash', p.SYMBOL]
+
+    @_('SHARPBSLASH NUMBER')
+    def rmac(self, p):
+        return ['sharpsign-backslash', p.NUMBER]
+
+    @_('SHARPPAREN sexp_seq RPAREN')
+    def rmac(self, p):
+        return ['sharpsign-vector', p.sexp_seq]
+
+    @_('SHARPQUOTE sexp')
+    def rmac(self, p):
+        return ['sharpsign-quote', p.sexp]
+
+    @_('SHARPCOLON SYMBOL')
+    def rmac(self, p):
+        return ['sharpsign-colon', p.SYMBOL]
+
+    @_('SHARPO NUMBER')
+    def rmac(self, p):
+        return ['sharpsign-o', p.NUMBER]
+
+    @_('BACKQUOTE sexp')
+    def rmac(self, p):
+        return ['backquote', p.sexp]
+
+    @_('COMMA sexp')
+    def rmac(self, p):
+        return ['comma', p.sexp]
+
+    @_('COMMAAMP sexp')
+    def rmac(self, p):
+        return ['comma-amp', p.sexp]
+
     @_('sexp sexp_seq')
     def sexp_seq(self, p):
         return [p.sexp] + p.sexp_seq
