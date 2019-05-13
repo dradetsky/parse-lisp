@@ -36,7 +36,7 @@ class LispLexer(Lexer):
     LPAREN = r'\('
     RPAREN = r'\)'
     NUMBER = r'-?((\.\d+)|(\d+\.\d*)|(\d+))'
-    SYMBOL = r"[a-zA-Z_\-+*\/=<>:.&%][.\w\-\+=><:%]*['!?]*"
+    SYMBOL = r"[a-zA-Z_\-+*\/=<>:.&%\$][.\w\-\+=><:%\$]*['!?]*"
     BACKQUOTE = r'`'
     COMMAAMP = r',@'
     COMMA = r','
